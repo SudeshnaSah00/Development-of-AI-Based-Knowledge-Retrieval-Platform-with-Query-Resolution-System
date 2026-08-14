@@ -1,10 +1,11 @@
+
 # AI Knowledge Retrieval Platform with Query Resolution System
 
 An AI-powered knowledge retrieval platform that allows users to upload knowledge-base documents and query them using natural language.
 
 The system combines document ingestion, text extraction, chunking, embedding generation, ChromaDB vector storage, hybrid retrieval, and a React-based conversational interface.
 
----
+
 
 ## 1. Project Overview
 
@@ -20,7 +21,7 @@ This project provides a domain-agnostic knowledge retrieval platform where users
 - Query the uploaded knowledge base using natural language.
 - Retrieve relevant document chunks.
 
----
+
 
 ## 2. Milestone 1 Scope
 
@@ -42,7 +43,7 @@ The current implementation focuses on the Knowledge Base Ingestion and RAG retri
 
 The current project therefore provides the ingestion, chunking, embedding, vector storage, retrieval, and frontend demonstration needed for the current Milestone 1 implementation.
 
----
+
 
 ## 3. Key Features
 
@@ -104,7 +105,6 @@ The frontend can display:
 
 > Retrieval relevance scores are ranking scores used by the system. They should not be interpreted as guaranteed probability or confidence percentages.
 
----
 
 ## 4. Technology Stack
 
@@ -136,7 +136,7 @@ The frontend can display:
 - TXT processing
 - CSV processing
 
----
+
 
 ## 5. Project Structure
 
@@ -181,7 +181,7 @@ AI Knowledge Retrieval System/
 
 `chroma_db/`, generated metadata, uploads, and virtual-environment files are runtime/development data and should normally not be committed to the repository unless the team specifically requires them.
 
----
+
 
 # 6. Backend Setup
 
@@ -206,7 +206,7 @@ cd "AI Knowledge Retrieval System/backend"
 
 Use the actual project folder name if it differs on your machine.
 
----
+
 
 ## Step 2: Create a Virtual Environment
 
@@ -216,7 +216,7 @@ Create the backend virtual environment:
 python -m venv .venv
 ```
 
----
+
 
 ## Step 3: Activate the Virtual Environment
 
@@ -238,7 +238,7 @@ After activation, the terminal should show something similar to:
 (.venv) C:\...\backend>
 ```
 
----
+
 
 ## Step 4: Install Backend Dependencies
 
@@ -248,7 +248,7 @@ With the virtual environment activated:
 pip install -r requirements.txt
 ```
 
----
+
 
 ## Step 5: Start FastAPI
 
@@ -272,7 +272,7 @@ The backend should be available at:
 http://127.0.0.1:8000
 ```
 
----
+
 
 ## Step 6: Open Swagger API Documentation
 
@@ -284,7 +284,7 @@ http://127.0.0.1:8000/docs
 
 Swagger UI can be used to test the backend endpoints.
 
----
+
 
 # 7. Frontend Setup
 
@@ -320,7 +320,7 @@ http://127.0.0.1:5173
 
 The frontend must be able to communicate with the FastAPI backend running on port `8000`.
 
----
+
 
 # 8. Running the Complete Project
 
@@ -367,7 +367,7 @@ FastAPI Backend
        Frontend UI
 ```
 
----
+
 
 # 9. Document Upload Flow
 
@@ -393,7 +393,7 @@ Processed Document
 
 The frontend provides visual feedback during the processing stages.
 
----
+
 
 # 10. Query / RAG Flow
 
@@ -441,7 +441,7 @@ What are the objectives of the project?
 
 uses semantic retrieval.
 
----
+
 
 # 11. API Endpoints
 
@@ -455,7 +455,7 @@ Example:
 GET http://127.0.0.1:8000/
 ```
 
----
+
 
 ## GET `/documents`
 
@@ -465,7 +465,7 @@ Returns the documents registered in the backend document repository.
 GET http://127.0.0.1:8000/documents
 ```
 
----
+
 
 ## POST `/upload`
 
@@ -480,7 +480,7 @@ Supported formats:
 .csv
 ```
 
----
+
 
 ## DELETE `/documents/{document_id}`
 
@@ -492,7 +492,7 @@ Example:
 DELETE /documents/<document_id>
 ```
 
----
+
 
 ## POST `/query`
 
@@ -509,7 +509,7 @@ Example:
 
 The response contains retrieved content, metadata, retrieval distance, and ranking information.
 
----
+
 
 # 12. Example Query Tests
 
@@ -552,7 +552,7 @@ Expected behavior:
 
 This uses semantic retrieval to find relevant project-document chunks.
 
----
+
 
 # 13. Testing the Backend
 
@@ -573,7 +573,7 @@ curl -X POST "http://127.0.0.1:8000/query" ^
 -d "{\"query\":\"Provide me details of Name_7?\",\"k\":3}"
 ```
 
----
+
 
 # 14. ChromaDB and Runtime Data
 
@@ -599,7 +599,7 @@ These are generated/runtime data.
 
 If the team needs to perform a clean local retrieval test, stop the backend and clear the generated vector/metadata data before re-uploading the test documents.
 
----
+
 
 # 15. Model Loading
 
@@ -611,7 +611,7 @@ This is expected behavior.
 
 The first startup can take longer because the model must be downloaded and initialized.
 
----
+
 
 # 16. Frontend and Backend Communication
 
@@ -626,7 +626,7 @@ http://127.0.0.1:5173
 
 The backend should be running before performing upload or query operations from the frontend.
 
----
+
 
 # 17. Development Notes
 
@@ -668,7 +668,7 @@ if they contain secrets or local environment data.
 
 Do not expose API keys or other credentials in the frontend source code.
 
----
+
 
 # 18. Quick Start
 
@@ -712,10 +712,13 @@ Frontend:
 http://localhost:5173
 ```
 
----
+
 
 ## Project Status
 
 The current project combines the React/Vite frontend with the FastAPI backend and implements the Milestone 1 knowledge-base ingestion and retrieval pipeline.
 
+
+
+# AI-Powered-Intelligent-Query-Resolution-System
 
