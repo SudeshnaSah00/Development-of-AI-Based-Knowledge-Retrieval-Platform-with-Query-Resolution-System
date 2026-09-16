@@ -21,30 +21,6 @@ function reasonForGap(gap) {
   return 'Detected gap';
 }
 
-function filterCategoryForGap(gap) {
-  const reason = reasonForGap(gap).toLowerCase();
-
-  if (reason.includes('unanswered')) {
-    return 'Unanswered';
-  }
-
-  if (
-    reason.includes('no information retrieved') ||
-    reason.includes('no relevant chunk')
-  ) {
-    return 'No relevant chunks';
-  }
-
-  if (
-    reason.includes('low retrieval confidence') ||
-    reason.includes('low confidence')
-  ) {
-    return 'Low confidence';
-  }
-
-  return reasonForGap(gap);
-}
-
 export default function KnowledgeGapPage({ onIngest }) {
   const [data, setData] = useState(null);
   const [filter, setFilter] = useState('all');
@@ -74,8 +50,7 @@ export default function KnowledgeGapPage({ onIngest }) {
     const q = search.trim().toLowerCase();
     return gaps.filter((gap) => {
       const reason = reasonForGap(gap);
-      const category = filterCategoryForGap(gap);
-      if (filter !== 'all' && category.toLowerCase() !== filter.toLowerCase()) return false;
+      if (filter !== 'all' && reason.toLowerCase() !== filter.toLowerCase()) return false;
       if (q && !`${gap.query_text || ''} ${gap.query_type || ''} ${reason}`.toLowerCase().includes(q)) return false;
       return true;
     });

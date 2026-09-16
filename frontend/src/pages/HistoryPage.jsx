@@ -128,54 +128,14 @@ export default function HistoryPage() {
                         ? JSON.parse(metadata)
                         : metadata;
 
-                    // Refusal answers are unanswered retrieval queries.
-                    // Older persisted messages may still contain the original
-                    // retrieval confidence, so derive the unanswered state
-                    // from the response text for this frontend-only history
-                    // page.
-                    const normalizedResponse =
-                      String(botResponseText || '')
-                        .trim()
-                        .toLowerCase();
-
-                    const refusalPatterns = [
-                      'the retrieved documents do not contain',
-                      'retrieved documents do not contain',
-                      'the retrieved context does not contain',
-                      'retrieved context does not contain',
-                      'i don\'t have enough information',
-                      'i do not have enough information',
-                      'no information is available',
-                      'no information is provided',
-                      'the available context does not contain',
-                      'the available context does not provide',
-                      'the context does not contain',
-                      'cannot answer from the available context',
-                      "can't answer from the available context",
-                      'not enough information in the available knowledge base',
-                    ];
-
-                    const isUnanswered =
-                      refusalPatterns.some((pattern) =>
-                        normalizedResponse.includes(pattern)
-                      );
-
-                    if (isUnanswered) {
-                      // Display unanswered retrieval responses as 0% and do
-                      // not include them in the average confidence.
-                      confidence = 0;
-                    } else if (
+                    if (
                       parsedMeta.confidence != null
                     ) {
                       confidence =
-                        Number(parsedMeta.confidence);
+                        parsedMeta.confidence;
 
-                      if (Number.isFinite(confidence)) {
-                        confidenceSum += confidence;
-                        confidenceCount++;
-                      } else {
-                        confidence = null;
-                      }
+                      confidenceSum += confidence;
+                      confidenceCount++;
                     }
 
                     if (
@@ -406,7 +366,8 @@ export default function HistoryPage() {
         <h1>Query History &amp; Statistics</h1>
 
         <p>
-          Review your recent activity and Statistics
+          Review your recent activity and RAG
+          performance metrics.
           <br />
 
           <small className="history-subtitle">
@@ -414,7 +375,7 @@ export default function HistoryPage() {
             {statistics.totalConversations > 20
               ? '20 most recent'
               : 'recent'}{' '}
-            conversations
+            conversations.
           </small>
         </p>
       </header>
@@ -441,6 +402,31 @@ export default function HistoryPage() {
           </span>
         </div>
 
+        <div className="stat-card">
+          <span className="stat-title">
+            Avg. Confidence
+          </span>
+
+          <span className="stat-value">
+            {statistics.averageConfidence > 0
+              ? `${(
+                  statistics.averageConfidence * 100
+                ).toFixed(1)}%`
+              : 'N/A'}
+          </span>
+        </div>
+
+        <div className="stat-card">
+          <span className="stat-title">
+            Avg. Sources / Query
+          </span>
+
+          <span className="stat-value">
+            {statistics.averageSources > 0
+              ? statistics.averageSources.toFixed(1)
+              : 'N/A'}
+          </span>
+        </div>
       </section>
 
       {/* Charts Section */}
@@ -529,6 +515,75 @@ export default function HistoryPage() {
             )}
           </div>
 
+          {/* Chart 3: Confidence Distribution */}
+          <div className="chart-card">
+            <h3>
+              Confidence Distribution
+            </h3>
+
+            {confidenceData.total > 0 ? (
+              <div className="confidence-chart">
+                <div className="confidence-bar-stacked">
+                  <div
+                    className="conf-segment conf-high"
+                    style={{
+                      width: `${
+                        (confidenceData.high /
+                          confidenceData.total) *
+                        100
+                      }%`,
+                    }}
+                    title={`High: ${confidenceData.high}`}
+                  ></div>
+
+                  <div
+                    className="conf-segment conf-med"
+                    style={{
+                      width: `${
+                        (confidenceData.med /
+                          confidenceData.total) *
+                        100
+                      }%`,
+                    }}
+                    title={`Medium: ${confidenceData.med}`}
+                  ></div>
+
+                  <div
+                    className="conf-segment conf-low"
+                    style={{
+                      width: `${
+                        (confidenceData.low /
+                          confidenceData.total) *
+                        100
+                      }%`,
+                    }}
+                    title={`Low: ${confidenceData.low}`}
+                  ></div>
+                </div>
+
+                <div className="confidence-legend">
+                  <div className="legend-item">
+                    <span className="legend-dot conf-high"></span>
+                    High ({confidenceData.high})
+                  </div>
+
+                  <div className="legend-item">
+                    <span className="legend-dot conf-med"></span>
+                    Med ({confidenceData.med})
+                  </div>
+
+                  <div className="legend-item">
+                    <span className="legend-dot conf-low"></span>
+                    Low ({confidenceData.low})
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="chart-empty">
+                No confidence data available
+              </div>
+            )}
+          </div>
         </section>
       )}
 
